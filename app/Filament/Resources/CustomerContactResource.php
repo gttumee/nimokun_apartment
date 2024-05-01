@@ -54,7 +54,6 @@ class CustomerContactResource extends Resource
                  '契約中' => '契約中',
                  '契約終了' => '契約終了',
                  '契約一時停止' => '契約一時停止',
-                 '契約中' => 'color-for-contract', // 新しいケースを追加
              ])->label('ステータス')->required(),
             ])
             ->columns(2);
@@ -73,15 +72,6 @@ class CustomerContactResource extends Resource
             ->sortable()
             ->searchable(),
             TextColumn::make('status')->label('ステータス')
-            ->badge()
-    ->color(fn (string $state): string => match ($state) {
-        'draft' => 'gray',
-        'reviewing' => 'warning',
-        'published' => 'success',
-        'rejected' => 'danger',
-        '契約中' => 'color-for-contract', // 新しいケースを追加
-
-    })
             ])
             
             ->filters([
