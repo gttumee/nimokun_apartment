@@ -30,7 +30,9 @@ class CustomerContactResource extends Resource
 
     public static function getNavigationBadge(): ?string
     {
-        return static::getModel()::where('id','=','2')->count();
+        // return static::getModel()::where('id','=','2')->count();
+        return static::getModel()::count();
+
     }
     
     public static function form(Form $form): Form
