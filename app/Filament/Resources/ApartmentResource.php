@@ -85,7 +85,7 @@ class ApartmentResource extends Resource
             ->actions([
                 Tables\Actions\Action::make('QRコード表示')
                 ->modalContent(function (Apartment $record){
-                    $url = 'https://mediafiles.botpress.cloud/2809c371-b5ee-4e7d-82ef-0b0cfd915e91/webchat/bot.html/';
+                    $url = 'https://mediafiles.botpress.cloud/2809c371-b5ee-4e7d-82ef-0b0cfd915e91/webchat/bot.html';
                     $qrCode = QrCode::size(300)->generate($url); 
                      return view('qrcode',['qrCode' => $qrCode,'apatment_names' => $record->name]);
                     } )
