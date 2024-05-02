@@ -31,7 +31,8 @@ class OwnerResource extends Resource
             ->schema([
                 TextInput::make('name')->required()->label('お名前'),
                 TextInput::make('email')->required()->label('メール')
-                ->placeholder('example@mail.com'),
+                ->placeholder('example@mail.com')
+                ->regex('/^.+@.+$/i'),
                 TextInput::make('phone')->required()->label('連絡先')
                 ->regex('/^(0\d{1,4}-?\d{1,4}-?\d{3,4})$/')
                 ->placeholder('000-0000-0000'),
