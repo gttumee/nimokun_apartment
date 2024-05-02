@@ -27,12 +27,16 @@ class CustomerContactResource extends Resource
     protected static ?string $navigationGroup = '作業管理';
     protected static ?string $modelLabel = '問い合わせ依頼';
     protected static ?int $navigationSort = 4;
-
+    
     public static function getNavigationBadge(): ?string
     {
-        // return static::getModel()::where('id','=','2')->count();
-        return static::getModel()::count();
+        return static::getModel()::where('status','=','未対応')->count();
 
+    }
+
+    public static function getNavigationBadgeColor(): string|array|null
+    {
+        return static::getModel()::where('status','=','未対応')->count() > 1 ? 'danger':'success';
     }
     
     public static function form(Form $form): Form

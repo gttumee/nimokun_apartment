@@ -73,6 +73,7 @@ class ApartmentResource extends Resource
             ->searchable()
             ->icon('heroicon-m-home'),
             ImageColumn::make('image')
+            ->label('画像')
             ->square()
             ])
             ->filters([
