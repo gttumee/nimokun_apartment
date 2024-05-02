@@ -7,6 +7,7 @@ use App\Filament\Resources\CustomerResource\RelationManagers;
 use App\Models\Apartment;
 use App\Models\Customer;
 use Filament\Forms;
+use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
@@ -22,7 +23,7 @@ class CustomerResource extends Resource
     protected static ?string $model = Customer::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-user-group';
-    protected static ?string $modelLabel = '顧客一覧';
+    protected static ?string $modelLabel = '顧客管理';
     protected static ?string $navigationGroup = '不動産管理';
     protected static ?int $navigationSort = 3;
 
@@ -31,18 +32,31 @@ class CustomerResource extends Resource
         return $form
             ->schema([
            TextInput::make('name')->required()->label('お名前'),
-           TextInput::make('room_number')->required()->label('住所'),
-           TextInput::make('phone')->required()->label('連絡先'),
-           TextInput::make('contract')->required()->label('契約'),
            Select::make('apartment_id')
-           ->searchPrompt('マンションをお名前で検索してください')
-            ->relationship('apartment', 'apartment_id')
-            ->label('マンション名')
+           ->searchPrompt('物件名で検索してください')
+           ->live()
+           ->searchable()
+           ->required()
+            ->label('物件名')
             ->options(function () {
        return Apartment::get()->pluck('name', 'id');
         }),
-           TextInput::make('status')->required()->label('ステータス'),
-            ]);
+           TextInput::make('room_number')->required()->label('部屋番号')
+           ->maxLength(6)
+           ->placeholder('900'),
+           TextInput::make('phone')->required()->label('連絡先')
+           ->regex('/^(0\d{1,4}-?\d{1,4}-?\d{3,4})$/')
+           ->placeholder('000-0000-0000'),
+           DatePicker::make('contract_start')->label('契約開始'),
+           DatePicker::make('contract_end')->label('契約終了'),
+           Select::make('status')
+           ->options([
+               '契約中' => '契約中',
+               '契約終了' => '契約終了',
+               '契約一時停止' => '契約一時停止',
+           ])->label('ステータス')->required()
+           ]);
+       
     }
 
     public static function table(Table $table): Table
@@ -52,27 +66,37 @@ class CustomerResource extends Resource
             TextColumn::make('name')->label('お名前')
             ->sortable()
             ->searchable(),
+            TextColumn::make('apartment.name')->label('物件名')
+            ->sortable()
+            ->searchable()
+            ->icon('heroicon-o-home-modern'),
             TextColumn::make('room_number')->label('部屋番号')
             ->sortable()
-            ->searchable(),
+            ->searchable()
+            ->icon('heroicon-m-ticket'),
             TextColumn::make('phone')->label('連絡先')
             ->sortable()
-            ->searchable(),
-            TextColumn::make('contract')->label('契約')
+            ->searchable()
+            ->icon('heroicon-m-phone'),
+            TextColumn::make('contract_start')->label('契約開始日')
             ->sortable()
-            ->searchable(),
-            TextColumn::make('status')->label('情報')
+            ->searchable()
+            ->icon('heroicon-m-calendar-days'),
+            TextColumn::make('contract_end')->label('契約終了日')
             ->sortable()
-            ->searchable(),
-            TextColumn::make('apartment.name')->label('マンション名')
+            ->searchable()
+            ->icon('heroicon-m-calendar-days'),
+            TextColumn::make('status')->label('ステータス')
             ->sortable()
-            ->searchable(),
+            ->searchable()
+            ->icon('heroicon-m-calendar-days'),
             ])
             ->filters([
                 //
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\ViewAction::make(),
                 Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([

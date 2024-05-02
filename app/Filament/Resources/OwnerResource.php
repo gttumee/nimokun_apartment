@@ -21,7 +21,7 @@ class OwnerResource extends Resource
     protected static ?string $model = Owner::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-user-circle';
-    protected static ?string $modelLabel = 'オーナ一覧';
+    protected static ?string $modelLabel = 'オーナ一管理';
     protected static ?string $navigationGroup = '不動産管理';
     protected static ?int $navigationSort = 1;
     
@@ -30,9 +30,11 @@ class OwnerResource extends Resource
         return $form
             ->schema([
                 TextInput::make('name')->required()->label('お名前'),
-                TextInput::make('address')->required()->label('住所'),
-                TextInput::make('phone')->required()->label('連絡先'),
-                TextInput::make('contract')->required()->label('契約期間'),
+                TextInput::make('email')->required()->label('メール')
+                ->placeholder('example@mail.com'),
+                TextInput::make('phone')->required()->label('連絡先')
+                ->regex('/^(0\d{1,4}-?\d{1,4}-?\d{3,4})$/')
+                ->placeholder('000-0000-0000'),
                 Select::make('status')
                 ->options([
                     '契約中' => '契約中',
@@ -49,15 +51,14 @@ class OwnerResource extends Resource
                 TextColumn::make('name')->label('お名前')
                 ->sortable()
                 ->searchable(),
-                TextColumn::make('address')->label('住所')
+                TextColumn::make('email')->label('メール')
                 ->sortable()
-                ->searchable(),
+                ->searchable()
+                ->icon('heroicon-m-envelope'),
                 TextColumn::make('phone')->label('連絡先')
                 ->sortable()
-                ->searchable(),
-                TextColumn::make('contract')->label('契約期間')
-                ->sortable()
-                ->searchable(),
+                ->searchable()
+                ->icon('heroicon-m-phone'),
                 TextColumn::make('status')->label('ステータス')
                 ->sortable()
                 ->searchable(),
@@ -67,6 +68,7 @@ class OwnerResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\ViewAction::make(),
                 Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([

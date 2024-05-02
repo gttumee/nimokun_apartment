@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('customer_contacts', function (Blueprint $table) {
             $table->id();
             $table->string('name')->nullable();
+            $table->string('room_number')->nullable();
             $table->string('info')->nullable();
             $table->string('status')->nullable();
             $table->foreignId('apartment_id')->constrained()->onDelete('cascade');

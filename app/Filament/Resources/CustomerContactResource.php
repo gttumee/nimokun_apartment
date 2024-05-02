@@ -40,25 +40,25 @@ class CustomerContactResource extends Resource
         return $form
             ->schema([
                 Select::make('apartment_id')
-                ->searchPrompt('オーナーをお名前で検索してください')
+                ->searchPrompt('物件名で検索してください')
                  ->relationship('apartment', 'apartment_id')
-                 ->label('マンション名')
+                 ->label('物件名')
                  ->options(function () {
             return Apartment::get()->pluck('name', 'id');
              })
              ->live()
              ->searchable()
              ->required(),
-             TextInput::make('name')->required()->label('部屋番号'),
-             Textarea::make('info')->required()->label('問い合わせ内容'),
+             TextInput::make('room_number')->required()->label('部屋番号'),
              Select::make('status')
              ->options([
-                 '契約中' => '契約中',
-                 '契約終了' => '契約終了',
-                 '契約一時停止' => '契約一時停止',
+                 '未対応' => '未対応',
+                 '対応中' => '対応中',
+                 '対応完了' => '対応完了',
              ])->label('ステータス')->required(),
+             TextInput::make('info')->required()->label('問い合わせ内容'),
             ])
-            ->columns(2);
+            ->columns(1);
     }
 
     public static function table(Table $table): Table
@@ -66,14 +66,16 @@ class CustomerContactResource extends Resource
         return $table
             ->columns([
             TextColumn::make('apartment.name')
-            ->label('マンション名'),
-            TextColumn::make('name')->label('部屋番号')
+            ->label('物件名'),
+            TextColumn::make('room_number')->label('部屋番号')
             ->sortable()
             ->searchable(),
-            TextColumn::make('updated_at')->label('日付')
+            TextColumn::make('info')->label('問い合わせ内容')
             ->sortable()
             ->searchable(),
-            TextColumn::make('status')->label('ステータス')
+            TextColumn::make('status')->label('ステータス'),
+            TextColumn::make('created_at')->label('問い合わせ日付')
+
             ])
             
             ->filters([
@@ -81,8 +83,9 @@ class CustomerContactResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
                 Tables\Actions\ViewAction::make(),
+                Tables\Actions\DeleteAction::make()
+                ,
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

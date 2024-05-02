@@ -17,7 +17,8 @@ return new class extends Migration
             $table->string('room_number')->nullable();
             $table->foreignId('apartment_id')->constrained()->onDelete('cascade');
             $table->string('phone')->nullable();
-            $table->string('contract');
+            $table->date('contract_start');
+            $table->date('contract_end');
             $table->string('status');
             $table->timestamps();
         });

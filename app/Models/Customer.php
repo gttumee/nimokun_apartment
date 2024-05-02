@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Customer extends Model
 {
     use HasFactory;
-    protected $fillable = ['name','room_number','phone','status','contract','apartment_id'];
+    protected $fillable = ['name','room_number','phone','status','contract_start','contract_end','apartment_id'];
 
      public function apartment(): BelongsTo
     {

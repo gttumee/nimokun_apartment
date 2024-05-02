@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Owner extends Model
 {
     use HasFactory;
-    protected $fillable = ['name','address','phone','status','contract'];
+    protected $fillable = ['name','email','phone','status'];
 
     public function apartment(): HasMany
     {

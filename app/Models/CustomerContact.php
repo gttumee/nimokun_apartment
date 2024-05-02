@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class CustomerContact extends Model
 {
     use HasFactory;
-    protected $fillable = ['name','info','status','apartment_id'];
+    protected $fillable = ['name','info','status','apartment_id','room_number'];
     
     public function apartment(): BelongsTo
     {

@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Apartment extends Model
 {
     use HasFactory;
-    protected $fillable = ['name','address','image','status','owner_id'];
+    protected $fillable = ['name','room_count','image','owner_id','qr_text'];
 
     public function owner(): belongsTo
     {
