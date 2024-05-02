@@ -63,7 +63,8 @@ class ApartmentResource extends Resource
             ->columns([
             TextColumn::make('name')->label('物件名')
             ->sortable()
-            ->searchable(),
+            ->searchable()
+            ->icon('heroicon-o-home-modern'),
             TextColumn::make('owner.name')
             ->label('オーナー')
             ->icon('heroicon-m-user-circle'),

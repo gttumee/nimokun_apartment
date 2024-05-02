@@ -66,10 +66,12 @@ class CustomerContactResource extends Resource
         return $table
             ->columns([
             TextColumn::make('apartment.name')
-            ->label('物件名'),
+            ->label('物件名')
+            ->icon('heroicon-o-home-modern'),
             TextColumn::make('room_number')->label('部屋番号')
             ->sortable()
-            ->searchable(),
+            ->searchable()
+            ->icon('heroicon-m-ticket'),
             TextColumn::make('info')->label('問い合わせ内容')
             ->sortable()
             ->searchable(),
