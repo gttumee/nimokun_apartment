@@ -25,7 +25,7 @@ class AdminPanelProvider extends PanelProvider
         return $panel
             ->default()
             ->id('admin')
-            ->path('admin')
+            ->path('')
             ->brandLogo(asset('img/nimokun_logo_text.png'))
             ->brandLogoHeight('5rem')
             ->login()
