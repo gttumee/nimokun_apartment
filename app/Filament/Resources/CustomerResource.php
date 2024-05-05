@@ -69,8 +69,7 @@ class CustomerResource extends Resource
                     ->label('お名前')
                     ->searchable()
                     ->sortable()
-                    ->weight(FontWeight::Bold)
-                    ->icon('heroicon-o-user'),
+                    ->weight(FontWeight::Bold),
                     TextColumn::make('apartment.name')->label('物件名')
                     ->sortable()
                     ->searchable()
