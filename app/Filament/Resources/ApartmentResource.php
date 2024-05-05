@@ -9,6 +9,8 @@ use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
+use Filament\Infolists\Components\TextEntry;
+use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Filament\Support\Enums\Alignment;
 use Filament\Tables;
@@ -74,7 +76,7 @@ class ApartmentResource extends Resource
                     ->label('オーナー')
                     ->icon('heroicon-m-user-circle')
                     ->visibleFrom('md'),
-                    TextColumn::make('owner.name')->label('オーナー')
+                    TextColumn::make('room_count')->label('部屋件数')
                         ->weight(FontWeight::Bold)
                         ->searchable()
                         ->sortable()
@@ -119,6 +121,17 @@ class ApartmentResource extends Resource
         ];
     }
 
+    public static function infolist(Infolist $infolist): Infolist
+    {
+     return $infolist
+     ->schema([
+        TextEntry::make('name')->label('物件名'),
+        TextEntry::make('owner.name')->label('オーナー'),
+        TextEntry::make('room_count')->label('部屋件数'),
+        TextEntry::make('image')->label('画像'),
+     ]);   
+    }
+    
     public static function getPages(): array
     {
         return [

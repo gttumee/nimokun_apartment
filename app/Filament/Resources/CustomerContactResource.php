@@ -12,6 +12,8 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
+use Filament\Infolists\Components\TextEntry;
+use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
@@ -89,7 +91,7 @@ class CustomerContactResource extends Resource
                         ->searchable()
                         ->icon('heroicon-o-chat-bubble-left')
                         ->getStateUsing(fn($record)=>$record->info),
-                        TextColumn::make('created_at')->label('問い合わせ日付'),
+                        TextColumn::make('created_at')->label('チャット日付'),
                         TextColumn::make('status')->label('ステータス'),
                     ]),
                 ]),
@@ -116,6 +118,19 @@ class CustomerContactResource extends Resource
         return [
             //
         ];
+    }
+
+    public static function infolist(Infolist $infolist): Infolist
+    {
+        return $infolist
+     ->schema([
+        TextEntry::make('apartment.name')->label('物件名'),
+        TextEntry::make('room_number')->label('部屋番号'),
+        TextEntry::make('info')->label('チャット内容'),
+        TextEntry::make('created_at')->label('チャット日付'),
+        TextEntry::make('status')->label('ステータス'),
+
+     ]);      
     }
 
     public static function getPages(): array

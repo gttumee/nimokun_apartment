@@ -9,6 +9,8 @@ use Filament\Forms;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
+use Filament\Infolists\Components\TextEntry;
+use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
@@ -102,6 +104,18 @@ class ServiceResource extends Resource
         return [
             //
         ];
+    }
+
+    public static function infolist(Infolist $infolist): Infolist
+    {
+        return $infolist
+        ->schema([
+           TextEntry::make('name')->label('お名前'),
+           TextEntry::make('phone')->label('連絡先'),
+           TextEntry::make('address')->label('住所'),
+           TextEntry::make('status')->label('ステータス'),
+   
+        ]);      
     }
 
     public static function getPages(): array
