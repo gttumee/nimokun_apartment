@@ -54,7 +54,7 @@ class ApartmentResource extends Resource
                      FileUpload::make('image')
                      ->acceptedFileTypes(['image/jpeg'])
                      ->required()->label('画像/jpg'),
-            TextInput::make('qr_text')->label('QRコース内容')
+            TextInput::make('qr_text')->label('QRコード内容')
             ->placeholder('QRコードに表示する内容入力してください'),
         
             ]);     

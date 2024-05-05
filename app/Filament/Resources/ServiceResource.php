@@ -67,13 +67,13 @@ class ServiceResource extends Resource
                     ->weight(FontWeight::Bold),
                     TextColumn::make('status')->label('ステータス')
                     ->sortable()
-                    ->searchable(),
+                    ->searchable()
+                    ->visibleFrom('md'),
                 Stack::make([
                     TextColumn::make('address')->label('住所')
                     ->sortable()
                     ->searchable()
-                    ->icon('heroicon-m-home')
-                    ->visibleFrom('md'),
+                    ->icon('heroicon-m-home'),
                     TextColumn::make('phone')->label('連絡先')
                     ->sortable()
                     ->searchable()
