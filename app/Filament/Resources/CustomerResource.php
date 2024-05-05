@@ -75,11 +75,6 @@ class CustomerResource extends Resource
                     ->sortable()
                     ->searchable()
                     ->icon('heroicon-o-home-modern'),
-                    TextColumn::make('room_number')->label('部屋番号')
-                    ->sortable()
-                    ->searchable()
-                    ->weight(FontWeight::Bold)
-                    ->getStateUsing(fn($record)=>'部屋番号: '.$record->room_number),
                 Stack::make([
                     TextColumn::make('phone')->label('連絡先')
                     ->sortable()
@@ -96,6 +91,12 @@ class CustomerResource extends Resource
                     ->sortable()
                     ->searchable()
                     ->visibleFrom('md'),
+                    TextColumn::make('room_number')->label('部屋番号')
+                    ->sortable()
+                    ->searchable()
+                    ->weight(FontWeight::Bold)
+                    ->getStateUsing(fn($record)=>'部屋番号: '.$record->room_number)
+                    ->visibleFrom('md')
                     ])
                     ]),   
             ])
