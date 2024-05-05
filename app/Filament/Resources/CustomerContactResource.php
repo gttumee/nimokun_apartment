@@ -16,16 +16,17 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Support\Enums\FontWeight;
+use Filament\Tables\Columns\Layout\Split;
+use Filament\Tables\Columns\Layout\Stack;
 
 class CustomerContactResource extends Resource
 {
     protected static ?string $model = CustomerContact::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-megaphone';
+    protected static ?string $navigationIcon = 'heroicon-o-chat-bubble-left-right';
     protected static ?string $navigationGroup = '作業管理';
-    protected static ?string $modelLabel = '問い合わせ依頼';
+    protected static ?string $modelLabel = 'チャット';
     protected static ?int $navigationSort = 4;
     
     public static function getNavigationBadge(): ?string
@@ -50,7 +51,6 @@ class CustomerContactResource extends Resource
                  ->options(function () {
             return Apartment::get()->pluck('name', 'id');
              })
-             ->live()
              ->searchable()
              ->required(),
              TextInput::make('room_number')->required()->label('部屋番号'),
@@ -60,7 +60,7 @@ class CustomerContactResource extends Resource
                  '対応中' => '対応中',
                  '対応完了' => '対応完了',
              ])->label('ステータス')->required(),
-             TextInput::make('info')->required()->label('問い合わせ内容'),
+             TextInput::make('info')->required()->label('チャット内容'),
             ])
             ->columns(1);
     }
@@ -69,19 +69,30 @@ class CustomerContactResource extends Resource
     {
         return $table
             ->columns([
-            TextColumn::make('apartment.name')
-            ->label('物件名')
-            ->icon('heroicon-o-home-modern'),
-            TextColumn::make('room_number')->label('部屋番号')
-            ->sortable()
-            ->searchable()
-            ->icon('heroicon-m-ticket'),
-            TextColumn::make('info')->label('問い合わせ内容')
-            ->sortable()
-            ->searchable(),
-            TextColumn::make('status')->label('ステータス'),
-            TextColumn::make('created_at')->label('問い合わせ日付')
-
+                Split::make([
+                    TextColumn::make('apartment.name')
+                    ->label('物件名')
+                    ->searchable()
+                    ->sortable()
+                    ->weight(FontWeight::Bold)
+                    ->icon('heroicon-o-home-modern'),
+                    TextColumn::make('room_number')->label('部屋番号')
+                        ->weight(FontWeight::Bold)
+                        ->searchable()
+                        ->sortable()
+                        ->searchable()
+                        ->getStateUsing(fn($record)=>'部屋番号: '.$record->room_number),
+                    Stack::make([
+                        TextColumn::make('info')->label('チャット内容')
+                        ->weight(FontWeight::Bold)
+                        ->sortable()
+                        ->searchable()
+                        ->icon('heroicon-o-chat-bubble-left')
+                        ->getStateUsing(fn($record)=>$record->info),
+                        TextColumn::make('created_at')->label('問い合わせ日付'),
+                        TextColumn::make('status')->label('ステータス'),
+                    ]),
+                ]),
             ])
             
             ->filters([
@@ -90,8 +101,7 @@ class CustomerContactResource extends Resource
             ->actions([
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\ViewAction::make(),
-                Tables\Actions\DeleteAction::make()
-                ,
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

@@ -13,8 +13,10 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Support\Enums\FontWeight;
+use Filament\Tables\Columns\Layout\Split;
+use Filament\Tables\Columns\Layout\Stack;
+
 
 class ServiceResource extends Resource
 {
@@ -58,20 +60,26 @@ class ServiceResource extends Resource
     {
         return $table
             ->columns([
+                Split::make([
                     TextColumn::make('name')->label('事業名')
                     ->sortable()
-                    ->searchable(),
-                    TextColumn::make('address')->label('住所')
-                    ->sortable()
                     ->searchable()
-                    ->icon('heroicon-m-home'),
-                    TextColumn::make('phone')->label('連絡先')
-                    ->sortable()
-                    ->searchable()
-                    ->icon('heroicon-m-phone'),
+                    ->weight(FontWeight::Bold),
                     TextColumn::make('status')->label('ステータス')
                     ->sortable()
                     ->searchable(),
+                Stack::make([
+                    TextColumn::make('address')->label('住所')
+                    ->sortable()
+                    ->searchable()
+                    ->icon('heroicon-m-home')
+                    ->visibleFrom('md'),
+                    TextColumn::make('phone')->label('連絡先')
+                    ->sortable()
+                    ->searchable()
+                    ->icon('heroicon-m-phone')
+                    ])
+                    ]),   
             ])
             ->filters([
                 //

@@ -13,15 +13,16 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Support\Enums\FontWeight;
+use Filament\Tables\Columns\Layout\Split;
+use Filament\Tables\Columns\Layout\Stack;
 
 class OwnerResource extends Resource
 {
     protected static ?string $model = Owner::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-user-circle';
-    protected static ?string $modelLabel = 'オーナ一管理';
+    protected static ?string $modelLabel = 'マイページ';
     protected static ?string $navigationGroup = '不動産管理';
     protected static ?int $navigationSort = 1;
     
@@ -49,20 +50,27 @@ class OwnerResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('name')->label('お名前')
-                ->sortable()
-                ->searchable(),
-                TextColumn::make('email')->label('メール')
-                ->sortable()
-                ->searchable()
-                ->icon('heroicon-m-envelope'),
-                TextColumn::make('phone')->label('連絡先')
-                ->sortable()
-                ->searchable()
-                ->icon('heroicon-m-phone'),
-                TextColumn::make('status')->label('ステータス')
-                ->sortable()
-                ->searchable(),
+                Split::make([
+                    TextColumn::make('name')
+                    ->label('お名前')
+                    ->searchable()
+                    ->sortable()
+                    ->weight(FontWeight::Bold)
+                    ->icon('heroicon-o-user-circle'),
+                    TextColumn::make('status')->label('ステータス')
+                    ->sortable()
+                    ->searchable(),
+                Stack::make([
+                    TextColumn::make('email')->label('メール')
+                    ->sortable()
+                    ->searchable()
+                    ->icon('heroicon-m-envelope'),
+                    TextColumn::make('phone')->label('連絡先')
+                    ->sortable()
+                    ->searchable()
+                    ->icon('heroicon-m-phone'),
+                    ])
+                    ]),    
             ])
             ->filters([
                 //

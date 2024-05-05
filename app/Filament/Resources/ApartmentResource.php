@@ -16,6 +16,8 @@ use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
+use Filament\Support\Enums\FontWeight;
+use Filament\Tables\Columns\Layout\Split;
 
 
 class ApartmentResource extends Resource
@@ -61,21 +63,29 @@ class ApartmentResource extends Resource
     {
         return $table
             ->columns([
-            TextColumn::make('name')->label('物件名')
-            ->sortable()
-            ->searchable()
-            ->icon('heroicon-o-home-modern'),
-            TextColumn::make('owner.name')
-            ->label('オーナー')
-            ->icon('heroicon-m-user-circle'),
-            TextColumn::make('room_count')->label('部屋件数')
-            ->sortable()
-            ->searchable()
-            ->icon('heroicon-m-home'),
-            ImageColumn::make('image')
-            ->label('画像')
-            ->square()
+                Split::make([
+                    TextColumn::make('name')
+                    ->label('物件名')
+                    ->searchable()
+                    ->sortable()
+                    ->weight(FontWeight::Bold)
+                    ->icon('heroicon-o-home-modern'),
+                    TextColumn::make('owner.name')
+                    ->label('オーナー')
+                    ->icon('heroicon-m-user-circle'),
+                    TextColumn::make('owner.name')->label('オーナー')
+                        ->weight(FontWeight::Bold)
+                        ->searchable()
+                        ->sortable()
+                        ->searchable()
+                        ->getStateUsing(fn($record)=>'部屋件数: '.$record->room_count),
+                    ImageColumn::make('image')
+                        ->label('画像')
+                        ->square()
+                        ->visibleFrom('md'),
+                    ]),
             ])
+                        
             ->filters([
                 //
             ])

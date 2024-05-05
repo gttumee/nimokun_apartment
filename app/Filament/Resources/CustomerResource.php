@@ -15,8 +15,9 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Support\Enums\FontWeight;
+use Filament\Tables\Columns\Layout\Split;
+use Filament\Tables\Columns\Layout\Stack;
 
 class CustomerResource extends Resource
 {
@@ -63,33 +64,39 @@ class CustomerResource extends Resource
     {
         return $table
             ->columns([
-            TextColumn::make('name')->label('お名前')
-            ->sortable()
-            ->searchable(),
-            TextColumn::make('apartment.name')->label('物件名')
-            ->sortable()
-            ->searchable()
-            ->icon('heroicon-o-home-modern'),
-            TextColumn::make('room_number')->label('部屋番号')
-            ->sortable()
-            ->searchable()
-            ->icon('heroicon-m-ticket'),
-            TextColumn::make('phone')->label('連絡先')
-            ->sortable()
-            ->searchable()
-            ->icon('heroicon-m-phone'),
-            TextColumn::make('contract_start')->label('契約開始日')
-            ->sortable()
-            ->searchable()
-            ->icon('heroicon-m-calendar-days'),
-            TextColumn::make('contract_end')->label('契約終了日')
-            ->sortable()
-            ->searchable()
-            ->icon('heroicon-m-calendar-days'),
-            TextColumn::make('status')->label('ステータス')
-            ->sortable()
-            ->searchable()
-            ->icon('heroicon-m-calendar-days'),
+                Split::make([
+                    TextColumn::make('name')
+                    ->label('お名前')
+                    ->searchable()
+                    ->sortable()
+                    ->weight(FontWeight::Bold)
+                    ->icon('heroicon-o-user'),
+                    TextColumn::make('apartment.name')->label('物件名')
+                    ->sortable()
+                    ->searchable()
+                    ->icon('heroicon-o-home-modern'),
+                    TextColumn::make('status')->label('ステータス')
+                    ->sortable()
+                    ->searchable(),
+                    TextColumn::make('room_number')->label('部屋番号')
+                    ->sortable()
+                    ->searchable()
+                    ->weight(FontWeight::Bold)
+                    ->getStateUsing(fn($record)=>'部屋番号: '.$record->room_number),
+                Stack::make([
+                    TextColumn::make('phone')->label('連絡先')
+                    ->sortable()
+                    ->searchable()
+                    ->icon('heroicon-m-phone')
+                    ->visibleFrom('md'),
+                    TextColumn::make('contract_start')->label('契約日付')
+                    ->sortable()
+                    ->searchable()
+                    ->icon('heroicon-m-calendar-days')
+                    ->getStateUsing(fn($record)=>$record->contract_start.'～'.$record->contract_end)
+                    ->visibleFrom('md'),
+                    ])
+                    ]),   
             ])
             ->filters([
                 //
