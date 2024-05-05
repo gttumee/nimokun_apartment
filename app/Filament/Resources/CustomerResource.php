@@ -85,8 +85,7 @@ class CustomerResource extends Resource
                     ->sortable()
                     ->searchable()
                     ->icon('heroicon-m-calendar-days')
-                    ->getStateUsing(fn($record)=>$record->contract_start.'～'.$record->contract_end)
-                    ->visibleFrom('md'),
+                    ->getStateUsing(fn($record)=>$record->contract_start.'～'.$record->contract_end),
                     TextColumn::make('status')->label('ステータス')
                     ->sortable()
                     ->searchable()
