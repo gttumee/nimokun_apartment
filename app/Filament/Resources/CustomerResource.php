@@ -75,9 +75,6 @@ class CustomerResource extends Resource
                     ->sortable()
                     ->searchable()
                     ->icon('heroicon-o-home-modern'),
-                    TextColumn::make('status')->label('ステータス')
-                    ->sortable()
-                    ->searchable(),
                     TextColumn::make('room_number')->label('部屋番号')
                     ->sortable()
                     ->searchable()
@@ -94,6 +91,10 @@ class CustomerResource extends Resource
                     ->searchable()
                     ->icon('heroicon-m-calendar-days')
                     ->getStateUsing(fn($record)=>$record->contract_start.'～'.$record->contract_end)
+                    ->visibleFrom('md'),
+                    TextColumn::make('status')->label('ステータス')
+                    ->sortable()
+                    ->searchable()
                     ->visibleFrom('md'),
                     ])
                     ]),   
