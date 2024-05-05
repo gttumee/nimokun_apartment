@@ -72,7 +72,8 @@ class ApartmentResource extends Resource
                     ->icon('heroicon-o-home-modern'),
                     TextColumn::make('owner.name')
                     ->label('オーナー')
-                    ->icon('heroicon-m-user-circle'),
+                    ->icon('heroicon-m-user-circle')
+                    ->visibleFrom('md'),
                     TextColumn::make('owner.name')->label('オーナー')
                         ->weight(FontWeight::Bold)
                         ->searchable()
