@@ -91,7 +91,8 @@ class ApartmentResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\ViewAction::make(),
+                Tables\Actions\ViewAction::make()
+                ->label('詳細'),
                 Tables\Actions\Action::make('QRコード表示')
                 ->modalContent(function (Apartment $record){
                     $url = 'https://mediafiles.botpress.cloud/2809c371-b5ee-4e7d-82ef-0b0cfd915e91/webchat/bot.html';

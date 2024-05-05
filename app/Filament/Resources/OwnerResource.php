@@ -59,7 +59,8 @@ class OwnerResource extends Resource
                     ->icon('heroicon-o-user-circle'),
                     TextColumn::make('status')->label('ステータス')
                     ->sortable()
-                    ->searchable(),
+                    ->searchable()
+                    ->visibleFrom('md'),
                 Stack::make([
                     TextColumn::make('email')->label('メール')
                     ->sortable()
@@ -76,7 +77,8 @@ class OwnerResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\ViewAction::make(),
+                Tables\Actions\ViewAction::make()
+                ->label('詳細'),
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
             ])
