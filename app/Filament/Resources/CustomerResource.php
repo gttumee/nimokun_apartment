@@ -90,14 +90,13 @@ class CustomerResource extends Resource
                     TextColumn::make('phone')->label('連絡先')
                     ->sortable()
                     ->searchable()
-                    ->icon('heroicon-m-phone')
-                    ->visibleFrom('md'),
+                    ->icon('heroicon-m-phone'),
                     TextColumn::make('contract_start')->label('契約日付')
                     ->sortable()
                     ->searchable()
                     ->icon('heroicon-m-calendar-days')
                     ->getStateUsing(fn($record)=>$record->contract_start.'～'.$record->contract_end),
-                    ])
+                    ])->from('md'),
                     ])->collapsed(false),   
             ])
             ->filters([
