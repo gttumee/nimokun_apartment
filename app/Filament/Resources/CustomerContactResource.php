@@ -21,6 +21,8 @@ use Filament\Tables\Table;
 use Filament\Support\Enums\FontWeight;
 use Filament\Tables\Columns\Layout\Split;
 use Filament\Tables\Columns\Layout\Stack;
+use Filament\Tables\Columns\Layout\Panel;
+
 
 class CustomerContactResource extends Resource
 {
@@ -71,7 +73,6 @@ class CustomerContactResource extends Resource
     {
         return $table
             ->columns([
-                Split::make([
                     TextColumn::make('apartment.name')
                     ->label('物件名')
                     ->searchable()
@@ -79,22 +80,22 @@ class CustomerContactResource extends Resource
                     ->weight(FontWeight::Bold)
                     ->icon('heroicon-o-home-modern'),
                     TextColumn::make('room_number')->label('部屋番号')
-                        ->weight(FontWeight::Bold)
                         ->searchable()
                         ->sortable()
                         ->searchable()
                         ->getStateUsing(fn($record)=>'部屋番号: '.$record->room_number),
-                    Stack::make([
+                    Panel::make([
+                        Stack::make([
+                        TextColumn::make('status')->label('ステータス'),
+                        TextColumn::make('created_at')->label('チャット日付'),
                         TextColumn::make('info')->label('チャット内容')
                         ->weight(FontWeight::Bold)
                         ->sortable()
                         ->searchable()
                         ->icon('heroicon-o-chat-bubble-left')
                         ->getStateUsing(fn($record)=>$record->info),
-                        TextColumn::make('created_at')->label('チャット日付'),
-                        TextColumn::make('status')->label('ステータス'),
-                    ]),
-                ]),
+                    ])
+                ])->collapsed(false),
             ])
             
             ->filters([

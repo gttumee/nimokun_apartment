@@ -18,6 +18,8 @@ use Filament\Tables\Table;
 use Filament\Support\Enums\FontWeight;
 use Filament\Tables\Columns\Layout\Split;
 use Filament\Tables\Columns\Layout\Stack;
+use Filament\Tables\Columns\Layout\Panel;
+
 
 
 class ServiceResource extends Resource
@@ -62,16 +64,17 @@ class ServiceResource extends Resource
     {
         return $table
             ->columns([
-                Split::make([
                     TextColumn::make('name')->label('事業名')
                     ->sortable()
                     ->searchable()
-                    ->weight(FontWeight::Bold),
+                    ->weight(FontWeight::Bold)
+                    ->icon('heroicon-o-wrench-screwdriver'),
                     TextColumn::make('status')->label('ステータス')
                     ->sortable()
                     ->searchable()
                     ->visibleFrom('md'),
-                Stack::make([
+                Panel::make([
+                    Split::make([
                     TextColumn::make('address')->label('住所')
                     ->sortable()
                     ->searchable()
@@ -81,7 +84,7 @@ class ServiceResource extends Resource
                     ->searchable()
                     ->icon('heroicon-m-phone')
                     ])
-                    ]),   
+                    ])->collapsed(false),   
             ])
             ->filters([
                 //

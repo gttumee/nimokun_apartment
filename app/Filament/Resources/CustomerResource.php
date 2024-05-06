@@ -20,6 +20,8 @@ use Filament\Tables\Table;
 use Filament\Support\Enums\FontWeight;
 use Filament\Tables\Columns\Layout\Split;
 use Filament\Tables\Columns\Layout\Stack;
+use Filament\Tables\Columns\Layout\Panel;
+
 
 class CustomerResource extends Resource
 {
@@ -66,17 +68,25 @@ class CustomerResource extends Resource
     {
         return $table
             ->columns([
-                Split::make([
                     TextColumn::make('name')
                     ->label('お名前')
                     ->searchable()
                     ->sortable()
-                    ->weight(FontWeight::Bold),
+                    ->weight(FontWeight::Bold)
+                    ->icon('heroicon-o-user'),
                     TextColumn::make('apartment.name')->label('物件名')
                     ->sortable()
                     ->searchable()
                     ->icon('heroicon-o-home-modern'),
-                Stack::make([
+                    TextColumn::make('room_number')->label('部屋番号')
+                    ->sortable()
+                    ->searchable()
+                    ->getStateUsing(fn($record)=>'部屋番号: '.$record->room_number),
+                Panel::make([
+                    Stack::make([
+                    TextColumn::make('status')->label('ステータス')
+                        ->sortable()
+                        ->searchable(),
                     TextColumn::make('phone')->label('連絡先')
                     ->sortable()
                     ->searchable()
@@ -87,18 +97,8 @@ class CustomerResource extends Resource
                     ->searchable()
                     ->icon('heroicon-m-calendar-days')
                     ->getStateUsing(fn($record)=>$record->contract_start.'～'.$record->contract_end),
-                    TextColumn::make('status')->label('ステータス')
-                    ->sortable()
-                    ->searchable()
-                    ->visibleFrom('md'),
-                    TextColumn::make('room_number')->label('部屋番号')
-                    ->sortable()
-                    ->searchable()
-                    ->weight(FontWeight::Bold)
-                    ->getStateUsing(fn($record)=>'部屋番号: '.$record->room_number)
-                    ->visibleFrom('md')
                     ])
-                    ]),   
+                    ])->collapsed(false),   
             ])
             ->filters([
                 //

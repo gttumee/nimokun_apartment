@@ -18,6 +18,8 @@ use Filament\Tables\Table;
 use Filament\Support\Enums\FontWeight;
 use Filament\Tables\Columns\Layout\Split;
 use Filament\Tables\Columns\Layout\Stack;
+use Filament\Tables\Columns\Layout\Panel;
+
 
 class OwnerResource extends Resource
 {
@@ -52,7 +54,6 @@ class OwnerResource extends Resource
     {
         return $table
             ->columns([
-                Split::make([
                     TextColumn::make('name')
                     ->label('お名前')
                     ->searchable()
@@ -61,9 +62,9 @@ class OwnerResource extends Resource
                     ->icon('heroicon-o-user-circle'),
                     TextColumn::make('status')->label('ステータス')
                     ->sortable()
-                    ->searchable()
-                    ->visibleFrom('md'),
-                Stack::make([
+                    ->searchable(),
+                Panel::make([
+                        Split::make([
                     TextColumn::make('email')->label('メール')
                     ->sortable()
                     ->searchable()
@@ -72,8 +73,8 @@ class OwnerResource extends Resource
                     ->sortable()
                     ->searchable()
                     ->icon('heroicon-m-phone'),
-                    ])
-                    ]),    
+                    ])->from('md'),
+                    ])->collapsed(false),  
             ])
             ->filters([
                 //

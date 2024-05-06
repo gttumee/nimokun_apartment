@@ -20,6 +20,8 @@ use Filament\Tables\Table;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Filament\Support\Enums\FontWeight;
 use Filament\Tables\Columns\Layout\Split;
+use Filament\Tables\Columns\Layout\Panel;
+
 
 
 class ApartmentResource extends Resource
@@ -65,7 +67,6 @@ class ApartmentResource extends Resource
     {
         return $table
             ->columns([
-                Split::make([
                     TextColumn::make('name')
                     ->label('物件名')
                     ->searchable()
@@ -74,8 +75,9 @@ class ApartmentResource extends Resource
                     ->icon('heroicon-o-home-modern'),
                     TextColumn::make('owner.name')
                     ->label('オーナー')
-                    ->icon('heroicon-m-user-circle')
-                    ->visibleFrom('md'),
+                    ->icon('heroicon-m-user-circle'),
+                    Panel::make([
+                        Split::make([
                     TextColumn::make('room_count')->label('部屋件数')
                         ->weight(FontWeight::Bold)
                         ->searchable()
@@ -85,8 +87,9 @@ class ApartmentResource extends Resource
                     ImageColumn::make('image')
                         ->label('画像')
                         ->square()
-                        ->visibleFrom('md'),
-                    ]),
+                        ])->from('md'),
+                    ])->collapsed(false),
+                
             ])
                         
             ->filters([
