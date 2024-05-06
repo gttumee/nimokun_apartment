@@ -87,16 +87,16 @@ class CustomerResource extends Resource
                     TextColumn::make('status')->label('ステータス')
                         ->sortable()
                         ->searchable(),
-                    TextColumn::make('phone')->label('連絡先')
-                    ->sortable()
-                    ->searchable()
-                    ->icon('heroicon-m-phone'),
                     TextColumn::make('contract_start')->label('契約日付')
                     ->sortable()
                     ->searchable()
                     ->icon('heroicon-m-calendar-days')
                     ->getStateUsing(fn($record)=>$record->contract_start.'～'.$record->contract_end),
-                    ])->from('md'),
+                    ]),
+                    TextColumn::make('phone')->label('連絡先')
+                    ->sortable()
+                    ->searchable()
+                    ->icon('heroicon-m-phone'),
                     ])->collapsed(false),   
             ])
             ->filters([
