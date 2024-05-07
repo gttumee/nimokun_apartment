@@ -95,7 +95,7 @@ class CustomerContactResource extends Resource
                         ->icon('heroicon-o-chat-bubble-left')
                         ->getStateUsing(fn($record)=>$record->info),
                     ])
-                ])->collapsed(false),
+                ])->collapsed(true),
             ])
             
             ->filters([

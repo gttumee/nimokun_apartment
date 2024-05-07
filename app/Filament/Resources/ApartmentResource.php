@@ -88,7 +88,7 @@ class ApartmentResource extends Resource
                         ->label('画像')
                         ->square()
                         ])->from('md'),
-                    ])->collapsed(false),
+                    ])->collapsed(true),
                 
             ])
                         
@@ -98,14 +98,14 @@ class ApartmentResource extends Resource
             ->actions([
                 Tables\Actions\ViewAction::make()
                 ->label('詳細'),
-                Tables\Actions\Action::make('QRコード表示')
+                Tables\Actions\Action::make('QRコード')
                 ->modalContent(function (Apartment $record){
                     $url = 'https://mediafiles.botpress.cloud/2809c371-b5ee-4e7d-82ef-0b0cfd915e91/webchat/bot.html';
                     $qrCode = QrCode::size(300)->generate($url); 
                      return view('qrcode',['qrCode' => $qrCode,'apatment_names' => $record->name, 'qr_text' => $record->qr_text]);
                     } )
                     ->modalAlignment(Alignment::Center)
-                    ->label('QRコード表示')
+                    ->label('QRコード')
                     ->icon('heroicon-m-qr-code'),
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),

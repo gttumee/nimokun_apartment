@@ -18,6 +18,7 @@ use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Filament\Navigation\MenuItem;
+use Filament\Navigation\NavigationItem;
 use Filament\Pages\Auth\EditProfile;
 
 class AdminPanelProvider extends PanelProvider
@@ -31,11 +32,19 @@ class AdminPanelProvider extends PanelProvider
             ->brandLogo(asset('img/nimokun_logo_text.png'))
             ->brandLogoHeight('5rem')
             ->login()
+            ->darkMode(false)
             ->colors([
                 'primary' => Color::hex('#17A3B8'),
             ])
             ->userMenuItems([
                 'profile' => MenuItem::make()->label('アカウント編集'),
+            ])
+            ->navigationItems([
+                NavigationItem::make('チェットアクセス')
+                ->url('https://mediafiles.botpress.cloud/2809c371-b5ee-4e7d-82ef-0b0cfd915e91/webchat/bot.html',shouldOpenInNewTab:true)
+                ->icon('heroicon-o-chat-bubble-left-ellipsis')
+                ->group('不動産管理')
+                ->sort('6')
             ])
             ->profile(EditProfile::class)
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')

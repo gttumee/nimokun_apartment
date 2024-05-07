@@ -97,7 +97,7 @@ class CustomerResource extends Resource
                     ->sortable()
                     ->searchable()
                     ->icon('heroicon-m-phone'),
-                    ])->collapsed(false),   
+                    ])->collapsed(true),   
             ])
             ->filters([
                 //

@@ -84,7 +84,7 @@ class ServiceResource extends Resource
                     ->searchable()
                     ->icon('heroicon-m-phone')
                     ])
-                    ])->collapsed(false),   
+                    ])->collapsed(true),   
             ])
             ->filters([
                 //
