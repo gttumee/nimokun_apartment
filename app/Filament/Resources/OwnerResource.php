@@ -73,8 +73,8 @@ class OwnerResource extends Resource
                     ->sortable()
                     ->searchable()
                     ->icon('heroicon-m-phone'),
-                    ])->from('md'),
-                    ])->collapsed(false),  
+                    ])
+                    ])->collapsed(true),
             ])
             ->filters([
                 //

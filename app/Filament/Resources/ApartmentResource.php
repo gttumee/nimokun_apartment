@@ -87,7 +87,7 @@ class ApartmentResource extends Resource
                     ImageColumn::make('image')
                         ->label('画像')
                         ->square()
-                        ])->from('md'),
+                        ])
                     ])->collapsed(true),
                 
             ])
