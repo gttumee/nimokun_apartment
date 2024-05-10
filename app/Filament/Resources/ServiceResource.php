@@ -74,7 +74,7 @@ class ServiceResource extends Resource
                     ->searchable()
                     ->visibleFrom('md'),
                 Panel::make([
-                    Split::make([
+                    Stack::make([
                     TextColumn::make('address')->label('住所')
                     ->sortable()
                     ->searchable()

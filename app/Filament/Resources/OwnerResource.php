@@ -64,7 +64,7 @@ class OwnerResource extends Resource
                     ->sortable()
                     ->searchable(),
                 Panel::make([
-                        Split::make([
+                    Stack::make([
                     TextColumn::make('email')->label('メール')
                     ->sortable()
                     ->searchable()
