@@ -16,10 +16,10 @@ class CustomerOverview extends BaseWidget
     {
         return [
             Stat::make('顧客', Customer::count())
-            ->description('契約中の顧客')
+            ->description('契約中のお客さん')
             ->descriptionIcon('heroicon-o-user-group',IconPosition::Before),
             Stat::make('物件', Apartment::count())
-            ->description('契約中の顧客')
+            ->description('現在の物件件数')
             ->descriptionIcon('heroicon-o-home-modern',IconPosition::Before),
             Stat::make('問い合わせ', CustomerContact::count())
             ->description('新規問い合わせ依頼')
