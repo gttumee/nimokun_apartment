@@ -39,6 +39,9 @@ class AdminPanelProvider extends PanelProvider
             ->userMenuItems([
                 'profile' => MenuItem::make()->label('アカウント編集'),
             ])
+            ->pages([
+                Pages\Dashboard::class
+            ])
             ->navigationItems([
                 NavigationItem::make('チェットアクセス')
                 ->url('https://mediafiles.botpress.cloud/2809c371-b5ee-4e7d-82ef-0b0cfd915e91/webchat/bot.html',shouldOpenInNewTab:true)
@@ -52,7 +55,6 @@ class AdminPanelProvider extends PanelProvider
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->widgets([
                 Widgets\AccountWidget::class,
-                Widgets\FilamentInfoWidget::class,
             ])
             ->middleware([
                 EncryptCookies::class,
