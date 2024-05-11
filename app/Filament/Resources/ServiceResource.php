@@ -3,9 +3,8 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\ServiceResource\Pages;
-use App\Filament\Resources\ServiceResource\RelationManagers;
 use App\Models\Service;
-use Filament\Forms;
+use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
@@ -16,7 +15,6 @@ use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Filament\Support\Enums\FontWeight;
-use Filament\Tables\Columns\Layout\Split;
 use Filament\Tables\Columns\Layout\Stack;
 use Filament\Tables\Columns\Layout\Panel;
 
@@ -30,15 +28,25 @@ class ServiceResource extends Resource
     protected static ?string $navigationGroup = '作業管理';
     protected static ?string $modelLabel = '業者管理';
     protected static ?int $navigationSort = 5;
+
     protected function getRedirectUrl(){
         return $this->getResource()::getUrl('index');
+    }
+
+    public static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::all()->count().'社';
+
     }
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                TextInput::make('name')
+                Section::make('会社情報')
+                ->description('ta sain bn uu')
+                ->schema([
+                    TextInput::make('name')
                 ->required()
                 ->label('事業名')
                 ->placeholder('○○株式会社'),
@@ -56,7 +64,8 @@ class ServiceResource extends Resource
                     '契約中' => '契約中',
                     '契約終了' => '契約終了',
                     '契約一時停止' => '契約一時停止',
-                ])->label('ステータス')->required(),
+                ])->label('ステータス')->required(),   
+                ])
             ]);
     }
 

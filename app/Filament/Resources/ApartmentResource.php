@@ -35,8 +35,13 @@ class ApartmentResource extends Resource
     {
         return $this->getResource()::getUrl('index');
     }
-    
 
+    public static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::all()->count().'件';
+
+    }
+    
     public static function form(Form $form): Form
     {
         return $form

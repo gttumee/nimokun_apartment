@@ -3,13 +3,9 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\CustomerContactResource\Pages;
-use App\Filament\Resources\CustomerContactResource\RelationManagers;
 use App\Models\Apartment;
 use App\Models\CustomerContact;
-use Filament\Forms;
-use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Select;
-use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Infolists\Components\TextEntry;
@@ -19,10 +15,9 @@ use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Filament\Support\Enums\FontWeight;
-use Filament\Tables\Columns\Layout\Split;
 use Filament\Tables\Columns\Layout\Stack;
 use Filament\Tables\Columns\Layout\Panel;
-
+use Filament\Tables\Filters\SelectFilter;
 
 class CustomerContactResource extends Resource
 {
@@ -35,7 +30,7 @@ class CustomerContactResource extends Resource
     
     public static function getNavigationBadge(): ?string
     {
-        return static::getModel()::where('status','=','未対応')->count();
+        return static::getModel()::where('status','=','未対応')->count().' リクエスト';
 
     }
 
@@ -99,8 +94,14 @@ class CustomerContactResource extends Resource
             ])
             
             ->filters([
-                //
-            ])
+                SelectFilter::make('status')
+                ->label('ステータス')
+                ->options([
+                    '未対応' => '未対応',
+                    '対応中' => '対応中',
+                    '対応完了' => '対応完了',
+                ])
+                ])
             ->actions([
                 Tables\Actions\ViewAction::make()
                 ->label('詳細'),

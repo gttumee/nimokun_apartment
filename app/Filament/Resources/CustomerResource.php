@@ -3,10 +3,8 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\CustomerResource\Pages;
-use App\Filament\Resources\CustomerResource\RelationManagers;
 use App\Models\Apartment;
 use App\Models\Customer;
-use Filament\Forms;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
@@ -18,10 +16,9 @@ use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Filament\Support\Enums\FontWeight;
-use Filament\Tables\Columns\Layout\Split;
 use Filament\Tables\Columns\Layout\Stack;
 use Filament\Tables\Columns\Layout\Panel;
-
+use Filament\Tables\Filters\SelectFilter;
 
 class CustomerResource extends Resource
 {
@@ -31,6 +28,12 @@ class CustomerResource extends Resource
     protected static ?string $modelLabel = '顧客管理';
     protected static ?string $navigationGroup = '不動産管理';
     protected static ?int $navigationSort = 3;
+
+    public static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::where('status','=','契約中')->count().'名';
+
+    }
 
     public static function form(Form $form): Form
     {
@@ -100,7 +103,13 @@ class CustomerResource extends Resource
                     ])->collapsed(true),   
             ])
             ->filters([
-                //
+                SelectFilter::make('status')
+                ->label('ステータス')
+                ->options([
+                    '契約中' => '契約中',
+                    '契約終了' => '契約終了',
+                    '契約一時停止' => '契約一時停止',
+                ])
             ])
             ->actions([
                 Tables\Actions\ViewAction::make()

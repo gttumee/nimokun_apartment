@@ -3,9 +3,7 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\OwnerResource\Pages;
-use App\Filament\Resources\OwnerResource\RelationManagers;
 use App\Models\Owner;
-use Filament\Forms;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
@@ -16,7 +14,6 @@ use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Filament\Support\Enums\FontWeight;
-use Filament\Tables\Columns\Layout\Split;
 use Filament\Tables\Columns\Layout\Stack;
 use Filament\Tables\Columns\Layout\Panel;
 
@@ -29,6 +26,12 @@ class OwnerResource extends Resource
     protected static ?string $modelLabel = 'マイページ';
     protected static ?string $navigationGroup = '不動産管理';
     protected static ?int $navigationSort = 1;
+    
+    public static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::all()->count().'名';
+
+    }
     
     public static function form(Form $form): Form
     {
