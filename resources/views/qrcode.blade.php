@@ -3,16 +3,12 @@
 <head>
     <title>QRコード</title>
     <style>
-        body {
+        .qr-code-container {
             display: flex;
-            flex-direction: column;
             align-items: center;
             justify-content: center;
-            height: 100vh;
-            margin: 0;
-            text-align: center;
         }
-        .qr-code-container {
+        .qr-code-text {
             display: flex;
             align-items: center;
             justify-content: center;
@@ -20,14 +16,14 @@
     </style>
 </head>
 <body>
-    <div>
+    <div class="qr-code-text">
         {{ $qr_text }}
     </div>
     <div class="qr-code-container">
         {{ $qrCode }}
     </div>
-    <div>
-        物件名: {{ $apatment_names }}
+    <div class="qr-code-text">
+       {{ $apatment_names }}
     </div>
 </body>
 </html>
