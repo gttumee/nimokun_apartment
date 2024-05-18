@@ -92,7 +92,7 @@ class CustomerContactResource extends Resource
                     ])
                 ])->collapsed(true),
             ])
-            
+            ->recordUrl(null)
             ->filters([
                 SelectFilter::make('status')
                 ->label('ステータス')
@@ -105,8 +105,10 @@ class CustomerContactResource extends Resource
             ->actions([
                 Tables\Actions\ViewAction::make()
                 ->label('詳細'),
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                Tables\Actions\ActionGroup::make([
+                    Tables\Actions\EditAction::make(),
+                    Tables\Actions\DeleteAction::make(),
+                ])
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -130,8 +132,7 @@ class CustomerContactResource extends Resource
         TextEntry::make('room_number')->label('部屋番号'),
         TextEntry::make('info')->label('チャット内容'),
         TextEntry::make('created_at')->label('チャット日付'),
-        TextEntry::make('status')->label('ステータス'),
-
+        TextEntry::make('status')->label('ステータス')
      ]);      
     }
 

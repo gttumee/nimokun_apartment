@@ -79,14 +79,18 @@ class OwnerResource extends Resource
                     ])
                     ])->collapsed(true),
             ])
+            ->recordUrl(null)
             ->filters([
                 //
             ])
+            ->recordUrl(null)
             ->actions([
                 Tables\Actions\ViewAction::make()
                 ->label('詳細'),
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                Tables\Actions\ActionGroup::make([
+                    Tables\Actions\EditAction::make(),
+                    Tables\Actions\DeleteAction::make(),
+                ])
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

@@ -96,7 +96,7 @@ class ApartmentResource extends Resource
                     ])->collapsed(true),
                 
             ])
-                        
+            ->recordUrl(null)          
             ->filters([
                 //
             ])
@@ -111,9 +111,14 @@ class ApartmentResource extends Resource
                     } )
                     ->modalAlignment(Alignment::Center)
                     ->label('QRコード')
-                    ->icon('heroicon-m-qr-code'),
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                    ->icon('heroicon-m-qr-code')
+                    ->modalWidth('md'),
+                    Tables\Actions\ActionGroup::make([
+                        Tables\Actions\EditAction::make(),
+                        Tables\Actions\DeleteAction::make(),
+                    ])
+                  
+                    
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
