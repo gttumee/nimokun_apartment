@@ -5,11 +5,16 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\CustomerContactResource\Pages;
 use App\Models\Apartment;
 use App\Models\CustomerContact;
+use App\Models\RequestVendor;
+use App\Models\Service;
+use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Infolists\Infolist;
+use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
@@ -58,6 +63,7 @@ class CustomerContactResource extends Resource
                  '未対応' => '未対応',
                  '対応中' => '対応中',
                  '対応完了' => '対応完了',
+                 '業者に依頼中' => '業者に依頼中',
              ])->label('ステータス')->required(),
              TextInput::make('info')->required()->label('チャット内容'),
             ])
@@ -79,9 +85,17 @@ class CustomerContactResource extends Resource
                         ->sortable()
                         ->searchable()
                         ->getStateUsing(fn($record)=>'部屋番号: '.$record->room_number),
+                    TextColumn::make('status')->label('ステータス')
+                    ->badge()
+                    ->color(fn (string $state): string => match ($state) {
+                        '未対応' => 'danger',
+                        '対応中' => 'warning',
+                        '対応完了' => 'success',
+                        '業者に依頼中' => 'info',
+                        default => 'gray',
+                    }),
                     Panel::make([
                         Stack::make([
-                        TextColumn::make('status')->label('ステータス'),
                         TextColumn::make('created_at')->label('チャット日付'),
                         TextColumn::make('info')->label('チャット内容')
                         ->weight(FontWeight::Bold)
@@ -90,8 +104,9 @@ class CustomerContactResource extends Resource
                         ->icon('heroicon-o-chat-bubble-left')
                         ->getStateUsing(fn($record)=>$record->info),
                     ])
-                ])->collapsed(true),
+                ])->collapsed(true)
             ])
+            ->defaultSort('status', 'desc')
             ->recordUrl(null)
             ->filters([
                 SelectFilter::make('status')
@@ -100,15 +115,44 @@ class CustomerContactResource extends Resource
                     '未対応' => '未対応',
                     '対応中' => '対応中',
                     '対応完了' => '対応完了',
+                    '業者に依頼中' => '業者に依頼中',
                 ])
                 ])
             ->actions([
                 Tables\Actions\ViewAction::make()
                 ->label('詳細'),
-                Tables\Actions\ActionGroup::make([
-                    Tables\Actions\EditAction::make(),
-                    Tables\Actions\DeleteAction::make(),
+                Tables\Actions\EditAction::make(),
+                Tables\Actions\Action::make('業者に依頼する')
+                ->form([
+                    Select::make('service')
+                        ->label('業者')
+                        ->multiple()
+                        ->options(Service::query()->pluck('name', 'id'))
+                        ->required(),
+                        RichEditor::make('work_contents')->required()->label('作業内容'),
+                        DatePicker::make('desired_start')->label('希望開始日'),
+                        DatePicker::make('desired_end')->label('希望終了日'),
+                        TextInput::make('price')->required()->label('金額')
                 ])
+                ->action(function (CustomerContact $record,array $data): void {
+                    $vendorRequest = new RequestVendor();
+                    $vendorRequest->service_id = $data['service'];
+                    $vendorRequest->work_contents = $data['work_contents'];
+                    $vendorRequest->desired_start = $data['desired_start'];
+                    $vendorRequest->desired_end = $data['desired_end'];
+                    $vendorRequest->price = $data['price'];
+                    $vendorRequest->save();
+                    $order = CustomerContact::find($record->id); 
+                    $order->status = '業者に依頼中'; 
+                    $order->save();
+                    Notification::make()
+                     ->success()
+                     ->title('依頼を送付しました!')
+                     ->icon('heroicon-o-check')
+                     ->send();
+      
+                })
+                ->modalSubmitActionLabel('メールで送信')
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -127,12 +171,12 @@ class CustomerContactResource extends Resource
     public static function infolist(Infolist $infolist): Infolist
     {
         return $infolist
-     ->schema([
+        ->schema([
         TextEntry::make('apartment.name')->label('物件名'),
         TextEntry::make('room_number')->label('部屋番号'),
         TextEntry::make('info')->label('チャット内容'),
         TextEntry::make('created_at')->label('チャット日付'),
-        TextEntry::make('status')->label('ステータス')
+        TextEntry::make('status')->label('ステータス'),
      ]);      
     }
 

@@ -82,14 +82,17 @@ class CustomerResource extends Resource
                     ->searchable()
                     ->icon('heroicon-o-home-modern'),
                     TextColumn::make('room_number')->label('部屋番号')
+                    ->badge()
                     ->sortable()
                     ->searchable()
                     ->getStateUsing(fn($record)=>'部屋番号: '.$record->room_number),
+                    TextColumn::make('status')->label('ステータス')
+                    ->sortable()
+                    ->badge()
+                    ->color('success')
+                    ->searchable(),
                 Panel::make([
                     Stack::make([
-                    TextColumn::make('status')->label('ステータス')
-                        ->sortable()
-                        ->searchable(),
                     TextColumn::make('contract_start')->label('契約日付')
                     ->sortable()
                     ->searchable()
@@ -115,10 +118,8 @@ class CustomerResource extends Resource
             ->actions([
                 Tables\Actions\ViewAction::make()
                 ->label('詳細'),
-                Tables\Actions\ActionGroup::make([
-                    Tables\Actions\EditAction::make(),
-                    Tables\Actions\DeleteAction::make(),
-                ])
+                Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

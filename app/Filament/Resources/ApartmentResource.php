@@ -78,21 +78,23 @@ class ApartmentResource extends Resource
                     ->sortable()
                     ->weight(FontWeight::Bold)
                     ->icon('heroicon-o-home-modern'),
-                    TextColumn::make('owner.name')
-                    ->label('オーナー')
-                    ->icon('heroicon-m-user-circle'),
+                    TextColumn::make('room_count')->label('部屋件数')
+                    ->weight(FontWeight::Bold)
+                    ->searchable()
+                    ->sortable()
+                    ->searchable()
+                    ->getStateUsing(fn($record)=>'部屋件数: '.$record->room_count)
+                    ->badge(),
                     Panel::make([
                         Split::make([
-                    TextColumn::make('room_count')->label('部屋件数')
-                        ->weight(FontWeight::Bold)
-                        ->searchable()
-                        ->sortable()
-                        ->searchable()
-                        ->getStateUsing(fn($record)=>'部屋件数: '.$record->room_count),
-                    ImageColumn::make('image')
-                        ->label('画像')
-                        ->square()
-                        ])
+                            TextColumn::make('owner.name')
+                            ->label('オーナー')
+                            ->icon('heroicon-m-user-circle'),
+                            ImageColumn::make('image')
+                            ->label('画像')
+                            ->square()
+                        ]),
+                      
                     ])->collapsed(true),
                 
             ])
@@ -112,13 +114,9 @@ class ApartmentResource extends Resource
                     ->modalAlignment(Alignment::Center)
                     ->label('QRコード')
                     ->icon('heroicon-m-qr-code')
-                    ->modalWidth('md'),
-                    Tables\Actions\ActionGroup::make([
+                    ->modalWidth('md')
+                    ->modalSubmitActionLabel('印刷'),
                         Tables\Actions\EditAction::make(),
-                        Tables\Actions\DeleteAction::make(),
-                    ])
-                  
-                    
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

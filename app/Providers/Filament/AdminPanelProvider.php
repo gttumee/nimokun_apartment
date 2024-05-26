@@ -42,13 +42,14 @@ class AdminPanelProvider extends PanelProvider
             ->pages([
                 Pages\Dashboard::class
             ])
-            ->navigationItems([
-                NavigationItem::make('チェットアクセス')
-                ->url('https://mediafiles.botpress.cloud/2809c371-b5ee-4e7d-82ef-0b0cfd915e91/webchat/bot.html',shouldOpenInNewTab:true)
-                ->icon('heroicon-o-chat-bubble-left-ellipsis')
-                ->group('不動産管理')
-                ->sort('6')
-            ])
+            ->databaseNotifications()
+            // ->navigationItems([
+            //     NavigationItem::make('チェットアクセス')
+            //     ->url('https://mediafiles.botpress.cloud/2809c371-b5ee-4e7d-82ef-0b0cfd915e91/webchat/bot.html',shouldOpenInNewTab:true)
+            //     ->icon('heroicon-o-chat-bubble-left-ellipsis')
+            //     ->group('不動産管理')
+            //     ->sort('6')
+            // ])
             ->profile(EditProfile::class)
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')

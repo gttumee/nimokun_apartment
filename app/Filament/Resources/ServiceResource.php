@@ -82,7 +82,9 @@ class ServiceResource extends Resource
                     TextColumn::make('status')->label('ステータス')
                     ->sortable()
                     ->searchable()
-                    ->visibleFrom('md'),
+                    ->visibleFrom('md')
+                    ->badge()
+                    ->color('success'),
                 Panel::make([
                     Stack::make([
                     TextColumn::make('address')->label('住所')
@@ -103,11 +105,9 @@ class ServiceResource extends Resource
             ->actions([
                 Tables\Actions\ViewAction::make()
                 ->label('詳細'),
-                Tables\Actions\ActionGroup::make([
                     Tables\Actions\EditAction::make(),
                     Tables\Actions\DeleteAction::make(),
                 ])
-            ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),

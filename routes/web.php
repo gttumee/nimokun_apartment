@@ -1,7 +1,13 @@
 <?php
 
+use App\Http\Controllers\DataApiController;
 use App\Http\Controllers\QrCodeController;
+use App\Models\CustomerContact;
 use Illuminate\Support\Facades\Route;
+use App\Models\User;
+use Filament\Notifications\Notification;
+use Carbon\Carbon;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -13,7 +19,5 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-Route::get('/qrcode',[QrCodeController::class,'generateQRCode']);
-// Route::get('/', function () {
-//     return view('welcome');
-// });
+Route::get('/qrcode',[QrCodeController::class,'generateQRCode'])->name('qrcode');
+Route::get('/get',[DataApiController::class,'dataNotifications']);
